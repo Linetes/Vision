@@ -42,7 +42,7 @@ def url_to_image(url):
 
   return image
 ```  
-Generamos una función llamada save_image_train() la cual se encarga de guardar las imágenes encontradas en la página web dentro de una carpeta local llamada train utilizando la función de cv2.imwrite(). Le asignamos un número de identificación i a cada archivo recibio el cual es utilizado para nombrar el documento en la descarga. De igual manera fue necesario implementar un filtro que omitiera argumentos vacíos utilizando un if.  
+Generamos una función llamada **save_image_train()** la cual se encarga de guardar las imágenes encontradas en la página web dentro de una carpeta local llamada train utilizando la función de **cv2.imwrite()**. Le asignamos un número de identificación i a cada archivo recibio el cual es utilizado para nombrar el documento en la descarga. De igual manera fue necesario implementar un filtro que omitiera argumentos vacíos utilizando un if.  
 ```  
 #Función para guardar imagen localmente en train
 def save_image_train(args):
@@ -66,7 +66,7 @@ def save_image_test(args):
 
   cv2.imwrite(f'./test/{search}/{i}.jpg', image)
 ```
-Para poder navegar en la red y realizar el scrapper descargamos el Chromedriver para ser utilizado con la librería de Selenium. En esta parte del código le dimos el acceso al driver utilizando la función webdriver.Chrome().
+Para poder navegar en la red y realizar el scrapper descargamos el Chromedriver para ser utilizado con la librería de Selenium. En esta parte del código le dimos el acceso al driver utilizando la función **webdriver.Chrome()**.
 ```
 #Crear driver de Selenium
 driver = webdriver.Chrome('C:\webdrivers\chromedriver.exe')  
@@ -81,32 +81,32 @@ Con la función **driver.get()** le damos la dirección al driver seleccionado p
 #Navegar a página
 driver.get(f'http://www.image-net.org/search?q={search}')
 ```
-Navegar la página web es similar a buscar un libro dentro de una biblioteca. Para llegar a los elementos deseados es necesario buscarlos dentro de su área y utilizando su argumento de referencia. En esta ocasión las imágenes de esta página web vienen dadas dentro de un elemento <a> con una referencia href. Implementando la funcion driver.find_elements_by_css_selector() aprovechamos este atributo para identificar todos los elementos de interés. Una vez obtenidos los id de los elementos deseados tuvimos que separar este contenido en una lista y eliminar los repetidos, para esto utilizamos el argumento de la línea 76.
-
+Navegar la página web es similar a buscar un libro dentro de una biblioteca. Para llegar a los elementos deseados es necesario buscarlos dentro de su área y utilizando su argumento de referencia. En esta ocasión las imágenes de esta página web vienen dadas dentro de un elemento <a> con una referencia href. Implementando la funcion **driver.find_elements_by_css_selector()** aprovechamos este atributo para identificar todos los elementos de interés. Una vez obtenidos los id de los elementos deseados tuvimos que separar este contenido en una lista y eliminar los repetidos, para esto utilizamos el argumento de la línea 76.
+```
 #Obtener ids de imágenes
 ids = driver.find_elements_by_css_selector('a[href*="synset?wnid"]')
 ids = [elem.get_attribute('href') for elem in ids]
 ids = list(set([elem.split('wnid=')[1] for elem in ids]))
-
-Ingresando al id de las imágenes utilizando la función driver.get(), obtuvimos un listado de url de imagenes del tema en cuestión. Para seleccionar estas direcciones no dirigimos a ellas utilizando la funcion driver.find_elemnt_by_tag_name() y generamos una lista con todo el contenido recibido. 
-
+```
+Ingresando al id de las imágenes utilizando la función **driver.get()**, obtuvimos un listado de url de imagenes del tema en cuestión. Para seleccionar estas direcciones no dirigimos a ellas utilizando la funcion **driver.find_elemnt_by_tag_name()** y generamos una lista con todo el contenido recibido. 
+```
 #Obtener urls de imágenes
 urls = []
 for id in ids:
   driver.get(f'http://www.image-net.org/api/text/imagenet.synset.geturls?wnid={id}')
   elem = driver.find_element_by_tag_name('pre')
   urls += elem.text.split('\n')
-
+```
 Una vez teniendo toda la información necesaria, el primer paso fue realizar un shuffle a la lista de urls para no generar tendencias de la búsqueda que puedan perjudicar el entrenamiento de nuestro sistema. También se dividió la lista urls en donde el 80% de su contenido fuera destinado al entrenamiento y el 20% a la evaluación. Esto lo hicimos utilizando un split del listado. 
-
+```
 #Partir en train y test
 random.shuffle(urls)
 length = len(urls)
 train_urls = urls[:int(length * 0.8)]
 test_urls = urls[int(length * 0.8):]
-
-Teniendo ya los elementos separados conforme su utilización. Es necesario generar las carpetas donde serán guardados los elementos. Asignamos la dirección y implementamos el valor search que es el input del usuario para organizar el contenido. Si no se encuentra esta dirección utilizamos el comando os.makedirs() para crearlo.  
-
+```
+Teniendo ya los elementos separados conforme su utilización. Es necesario generar las carpetas donde serán guardados los elementos. Asignamos la dirección y implementamos el valor search que es el input del usuario para organizar el contenido. Si no se encuentra esta dirección utilizamos el comando **os.makedirs()** para crearlo.  
+```
 #Crear folders si no existen
 path = f'./train/{search}'
 if not os.path.isdir(path):
@@ -115,15 +115,16 @@ if not os.path.isdir(path):
 path = f'./test/{search}'
 if not os.path.isdir(path):
   os.makedirs(path)
-
-Debido a que trabajamos con cantidades muy grandes de información, implementamos la función multiprocessing.cpu_count() para poder agilizar el proceso de descarga.  
- 
+```
+Debido a que trabajamos con cantidades muy grandes de información, implementamos la función **multiprocessing.cpu_count()** para poder agilizar el proceso de descarga.  
+ ```
 #Obtener CPUs disponibles
 num_cpus = multiprocessing.cpu_count()
-
-Utilizando el poder de computo disponible el ultimo paso es descargar los elementos obtenidos de este modelo. 
-
+```
+El último paso es descargar los elementos obtenidos. Para esto utilizamos el la función **threads.ThreadPoolexecutor()** para poder ejecutar las descargas de manera concurrente y así poder realizarlo en menor tiempo.
+```
 #Descargar y guardar imágenes concurrentemente
 with threads.ThreadPoolExecutor(max_workers=num_cpus) as executor:
   result = list(executor.map(save_image_train, enumerate(train_urls)))
   result = list(executor.map(save_image_test, enumerate(test_urls)))
+```
