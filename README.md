@@ -85,7 +85,7 @@ Con la función **driver.get()** le damos la dirección al driver seleccionado p
 #Navegar a página
 driver.get(f'http://www.image-net.org/search?q={search}')
 ```
-Navegar la página web es similar a buscar un libro dentro de una biblioteca. Para llegar a los elementos deseados es necesario buscarlos dentro de su área y utilizando su argumento de referencia. En esta ocasión las imágenes de esta página web vienen dadas dentro de un elemento <a> con una referencia __href__. Implementando la funcion **driver.find_elements_by_css_selector()** aprovechamos este atributo para identificar todos los elementos de interés. Una vez obtenidos los id de los elementos deseados tuvimos que separar este contenido en una lista y eliminar los repetidos, para esto utilizamos el argumento de la línea 76.
+Navegar la página web es similar a buscar un libro dentro de una biblioteca. Para llegar a los elementos deseados es necesario buscarlos dentro de su área y utilizando su argumento de referencia. En esta ocasión las imágenes de esta página web vienen dadas dentro de un elemento <a> con una referencia _href_. Implementando la funcion **driver.find_elements_by_css_selector()** aprovechamos este atributo para identificar todos los elementos de interés. Una vez obtenidos los id de los elementos deseados tuvimos que separar este contenido en una lista y eliminar los repetidos, para esto utilizamos el argumento de la línea 76.
 ```
 #Obtener ids de imágenes
 ids = driver.find_elements_by_css_selector('a[href*="synset?wnid"]')
@@ -134,7 +134,7 @@ with threads.ThreadPoolExecutor(max_workers=num_cpus) as executor:
 ```
 
 ## Resultados
-Las siguientes imágenes muestran el resultado que obtuvimos realizando la búsqueda de __horse__:
+Las siguientes imágenes muestran el resultado que obtuvimos realizando la búsqueda de _horse_:
 
  <p align="center">
   <img src="https://github.com/Linetes/Vision/blob/master/result1.jpg">
