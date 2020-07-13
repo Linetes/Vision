@@ -10,27 +10,27 @@ Lisset Botello Santiago.
 ## Uso
 
 ### Dependencias
-Selenium\n
-```pip install selenium```
-urllib.request
-```pip install pycopy-urllib.request```
-CV2
-```pip install opencv-python```
-numpy
-```pip install numpy```
-random
-```pip install random2```
-concurrent.futures
-```pip install futures```
-multiprocessing
-```pip install multiprocess```
-Web Driver
-https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium
+Selenium  
+```pip install selenium```  
+urllib.request  
+```pip install pycopy-urllib.request```  
+CV2  
+```pip install opencv-python```  
+numpy  
+```pip install numpy```  
+random  
+```pip install random2```  
+concurrent.futures  
+```pip install futures```  
+multiprocessing  
+```pip install multiprocess```  
+Web Driver  
+https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium  
 
 ### Correr
-```python main.py```
-Programa preguntará, "What are you looking for?"
-Responder con la palabra del objeto que desea.
+```python main.py```  
+Programa preguntará, "What are you looking for?"  
+Responder con la palabra del objeto que desea.  
 
 ## Planteamiento del problema 
 Usar la técnica de web data scraping para recopilar imágenes de una base de datos en línea. 
