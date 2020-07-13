@@ -17,7 +17,7 @@ La base de datos que usaremos es ImageNet: http://image-net.org/about-overview
 
 El programa debe solicitar un término de búsqueda al usuario, una vez ingresado el programa accesa a ImageNet y efectúa una consulta por ese término. El programa descarga las imágenes que arrojó la base de datos, el 80% de las imágenes deben ser guardadas en una carpeta llamada ./train/<término_de_búsqueda>, el 20% restante deben ser guardadas en una carpeta ./test/<término_de_búsqueda>.
 
-# Explicación del Codigo
+## Explicación del Codigo
 Las librerias utilizadas para la solucion de esta actividad fueron las siguientes:
 ```
 from selenium import webdriver
@@ -132,3 +132,7 @@ with threads.ThreadPoolExecutor(max_workers=num_cpus) as executor:
   result = list(executor.map(save_image_train, enumerate(train_urls)))
   result = list(executor.map(save_image_test, enumerate(test_urls)))
 ```
+
+## Resultados
+Las siguientes imágenes muestran el resultado que obtuvimos:
+
