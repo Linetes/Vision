@@ -10,7 +10,7 @@ Lisset Botello Santiago.
 ## Uso
 
 ### Dependencias
-Selenium 
+Selenium\n
 ```pip install selenium```
 urllib.request
 ```pip install pycopy-urllib.request```
