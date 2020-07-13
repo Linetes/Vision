@@ -1,4 +1,4 @@
-# Vision
+# Proyecto Integrador 2
 Proyecto para la materia de visión computacional
 ## Integrantes del equipo
 Juan Pablo Ramos Sanabria, 
@@ -17,8 +17,8 @@ La base de datos que usaremos es ImageNet: http://image-net.org/about-overview
 
 El programa debe solicitar un término de búsqueda al usuario, una vez ingresado el programa accesa a ImageNet y efectúa una consulta por ese término. El programa descarga las imágenes que arrojó la base de datos, el 80% de las imágenes deben ser guardadas en una carpeta llamada ./train/<término_de_búsqueda>, el 20% restante deben ser guardadas en una carpeta ./test/<término_de_búsqueda>.
 
-## Explicación del Codigo
-Las librerias utilizadas para la solucion de esta actividad fueron las siguientes:
+## Explicación del Código
+Las librerías utilizadas para la solución de esta actividad fueron las siguientes:
 ```
 from selenium import webdriver
 import urllib.request
@@ -30,7 +30,7 @@ import concurrent.futures as threads
 import multiprocessing
 ```
 
-Definimos una función llamada **url_to_image()** la cual solo utiliza un argumento url como entrada. En este momento utilizamos la librería urllib para convertir la dirección url de la imagen proporcionada a una secuencia de bytes que después es convertida a un arreglo de Numpy. A partir de aquí trabajamos el arreglo para obtener una imagen utilizando el comando cv2.imdecode. En ocasiones se encontraron url vacíos que saboteaban el funcionamiento del sistema, por esto fue necesario utilizar un if para descartar todos los url vacíos. 
+Definimos una función llamada **url_to_image()** la cual solo utiliza un argumento url como entrada. En este momento utilizamos la librería urllib para convertir la dirección url de la imagen proporcionada a una secuencia de bytes que después es convertida a un arreglo de Numpy. A partir de aquí trabajamos el arreglo para obtener una imagen utilizando el comando **cv2.imdecode**. En ocasiones se encontraron url vacíos que saboteaban el funcionamiento del sistema, por esto fue necesario utilizar un if para descartar todos los url vacíos. 
 ```
 #Función para descargar imagen y convertir a bytes
 def url_to_image(url):
@@ -85,14 +85,14 @@ Con la función **driver.get()** le damos la dirección al driver seleccionado p
 #Navegar a página
 driver.get(f'http://www.image-net.org/search?q={search}')
 ```
-Navegar la página web es similar a buscar un libro dentro de una biblioteca. Para llegar a los elementos deseados es necesario buscarlos dentro de su área y utilizando su argumento de referencia. En esta ocasión las imágenes de esta página web vienen dadas dentro de un elemento <a> con una referencia href. Implementando la funcion **driver.find_elements_by_css_selector()** aprovechamos este atributo para identificar todos los elementos de interés. Una vez obtenidos los id de los elementos deseados tuvimos que separar este contenido en una lista y eliminar los repetidos, para esto utilizamos el argumento de la línea 76.
+Navegar la página web es similar a buscar un libro dentro de una biblioteca. Para llegar a los elementos deseados es necesario buscarlos dentro de su área y utilizando su argumento de referencia. En esta ocasión las imágenes de esta página web vienen dadas dentro de un elemento <a> con una referencia __href__. Implementando la funcion **driver.find_elements_by_css_selector()** aprovechamos este atributo para identificar todos los elementos de interés. Una vez obtenidos los id de los elementos deseados tuvimos que separar este contenido en una lista y eliminar los repetidos, para esto utilizamos el argumento de la línea 76.
 ```
 #Obtener ids de imágenes
 ids = driver.find_elements_by_css_selector('a[href*="synset?wnid"]')
 ids = [elem.get_attribute('href') for elem in ids]
 ids = list(set([elem.split('wnid=')[1] for elem in ids]))
 ```
-Ingresando al id de las imágenes utilizando la función **driver.get()**, obtuvimos un listado de url de imagenes del tema en cuestión. Para seleccionar estas direcciones no dirigimos a ellas utilizando la funcion **driver.find_elemnt_by_tag_name()** y generamos una lista con todo el contenido recibido. 
+Ingresando al id de las imágenes utilizando la función **driver.get()**, obtuvimos un listado de url de imágenes del tema en cuestión. Para seleccionar estas direcciones no dirigimos a ellas utilizando la función **driver.find_elemnt_by_tag_name()** y generamos una lista con todo el contenido recibido. 
 ```
 #Obtener urls de imágenes
 urls = []
@@ -134,7 +134,7 @@ with threads.ThreadPoolExecutor(max_workers=num_cpus) as executor:
 ```
 
 ## Resultados
-Las siguientes imágenes muestran el resultado que obtuvimos:
+Las siguientes imágenes muestran el resultado que obtuvimos realizando la búsqueda de __horse__:
 
  <p align="center">
   <img src="https://github.com/Linetes/Vision/blob/master/result1.jpg">
