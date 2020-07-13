@@ -136,3 +136,10 @@ with threads.ThreadPoolExecutor(max_workers=num_cpus) as executor:
 ## Resultados
 Las siguientes imágenes muestran el resultado que obtuvimos:
 
+ <p align="center">
+  <img src="https://github.com/Linetes/Vision/blob/master/result1.jpg">
+</p>
+
+ <p align="center">
+  <img src="https://github.com/Linetes/Vision/blob/master/result2.jpg">
+</p>
